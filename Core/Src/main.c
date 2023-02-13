@@ -204,8 +204,6 @@ int main(void)
 	__asm("nop");
 	__asm("nop");
 	__asm("nop");
-	__asm("nop");
-	__asm("nop");
 
     /* USER CODE END WHILE */
 
