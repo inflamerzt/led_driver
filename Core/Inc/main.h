@@ -57,7 +57,7 @@ extern "C" {
 
 /* Exported constants --------------------------------------------------------*/
 /* USER CODE BEGIN EC */
-
+volatile static uint8_t ssd1306_buffer[128];
 /* USER CODE END EC */
 
 /* Exported macro ------------------------------------------------------------*/
@@ -69,7 +69,8 @@ extern "C" {
 void Error_Handler(void);
 
 /* USER CODE BEGIN EFP */
-
+void configure_I2C_channel_DMA_memory(uint32_t buffer,uint16_t size);
+void configure_M2M_channel_DMA_memory(uint32_t pattern, uint32_t buffer,uint16_t size);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/

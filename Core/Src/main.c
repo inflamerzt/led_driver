@@ -42,8 +42,8 @@
 
 /* USER CODE BEGIN PV */
 
-volatile static uint8_t ssd1306_fill_pattern = 0x22;
-volatile static uint8_t ssd1306_buffer[1025];
+volatile static uint8_t ssd1306_fill_pattern = 0x0;
+//volatile static uint8_t ssd1306_buffer[1025];
 volatile uint8_t ssd1306_display_bank;
 
 
@@ -63,6 +63,9 @@ static void MX_I2C2_Init(void);
 /* USER CODE BEGIN PFP */
 void configure_I2C_channel_DMA_memory(uint32_t buffer,uint16_t size);
 void configure_M2M_channel_DMA_memory(uint32_t pattern, uint32_t buffer,uint16_t size);
+
+char ssd1306_WriteString(char* str);
+char ssd1306_WriteChar(char ch);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -82,18 +85,13 @@ int main(void)
 	ssd1306_display_bank = 0;
 	ssd1306_buffer[0]= 0x40; //control byte data
 
-	uint8_t currentchar = 'A';
 
-	uint8_t currentcharptr = currentchar - microsoftSansSerif_12ptFontInfo.FirstChar;
+/*
+	for (uint8_t i = 0; i < charwidth; i++){
+		test = microsoftSansSerif_12ptBitmaps[arrayptr + i];
+	}
 
-	uint16_t startchar;
-	startchar = microsoftSansSerif_12ptFontInfo.FontTable[currentcharptr].width;
-	uint8_t arrayptr = microsoftSansSerif_12ptDescriptors[currentcharptr].start;
-
-	uint8_t test = microsoftSansSerif_12ptBitmaps[arrayptr];
-
-
-
+*/
 
   /* USER CODE END 1 */
 
@@ -129,6 +127,9 @@ int main(void)
   configure_M2M_channel_DMA_memory((uint32_t)&ssd1306_fill_pattern, (uint32_t)&ssd1306_buffer[1],sizeof(ssd1306_buffer)-1);
 
   LL_DMA_EnableChannel(DMA1, LL_DMA_CHANNEL_2);
+
+  ssd1306_WriteChar('E');
+
 
   LL_TIM_EnableIT_UPDATE(TIM14);
   LL_TIM_EnableCounter(TIM14);
@@ -723,3 +724,49 @@ void assert_failed(uint8_t *file, uint32_t line)
   /* USER CODE END 6 */
 }
 #endif /* USE_FULL_ASSERT */
+
+
+
+char ssd1306_WriteString(char* str)
+{
+
+
+	// Write until null-byte
+    while (*str)
+    {
+        if (ssd1306_WriteChar(*str) != *str)
+        {
+            // Char could not be written
+            return *str;
+        }
+
+        // Next char
+        str++;
+    }
+
+    // Everything ok
+    return *str;
+}
+
+char ssd1306_WriteChar(char ch)
+{
+
+	//uint8_t ch = 'A';
+
+	uint8_t currentcharptr = ch - lucidaConsole_18ptFontInfo.FirstChar;  //17
+
+	uint16_t charwidth = lucidaConsole_18ptFontInfo.FontTable[currentcharptr].width; //11
+	uint8_t charheight = lucidaConsole_18ptFontInfo.Height; //2
+	uint8_t arrayptr = lucidaConsole_18ptDescriptors[currentcharptr].start; //132
+
+	//uint8_t test = microsoftSansSerif_12ptBitmaps[arrayptr]; //0
+
+  	for (uint8_t b=0;b < charheight; b++){
+	for (uint8_t i = 0; i < charwidth; i++){
+		ssd1306_buffer[i+1+(b*128)] = lucidaConsole_18ptBitmaps[arrayptr + i + (b*charwidth )];
+	}}
+
+
+    return ch;
+
+};

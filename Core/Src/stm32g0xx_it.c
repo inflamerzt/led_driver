@@ -224,6 +224,10 @@ void I2C2_IRQHandler(void)
 	if(LL_I2C_IsActiveFlag_TCR(I2C2)){
 		ssd1306_display_bank++;
 		if(ssd1306_display_bank < 8){
+/*		       LL_DMA_ClearFlag_GI1(DMA1);
+		       LL_DMA_ClearFlag_TC1(DMA1);
+		       LL_DMA_ClearFlag_HT1(DMA1);
+		       configure_I2C_channel_DMA_memory((uint32_t)&ssd1306_buffer,sizeof(ssd1306_buffer));*/
 			LL_I2C_SetTransferSize(I2C2, 128);
 			LL_I2C_GenerateStartCondition(I2C2);
 

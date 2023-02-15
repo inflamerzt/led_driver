@@ -8,7 +8,7 @@
 #ifndef INC_FONT_H_
 #define INC_FONT_H_
 #include "main.h"
-
+#define uint_8 uint8_t
 
 // Character's info struct.
 typedef struct FontTable {
@@ -29,10 +29,13 @@ typedef struct
 
 
 
-// Font data for Microsoft Sans Serif 12pt
-extern const uint8_t microsoftSansSerif_12ptBitmaps[];
-extern const FONT_INFO microsoftSansSerif_12ptFontInfo;
-extern const FONT_CHAR_INFO microsoftSansSerif_12ptDescriptors[];
+// Font data for Lucida Console 18pt
+extern const uint_8 lucidaConsole_18ptBitmaps[];
+extern const FONT_INFO lucidaConsole_18ptFontInfo;
+extern const FONT_CHAR_INFO lucidaConsole_18ptDescriptors[];
+
+
+
 
 
 
