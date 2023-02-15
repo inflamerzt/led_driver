@@ -18,7 +18,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-
+#include "font.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "ssd1306.h"
@@ -81,6 +81,19 @@ int main(void)
   /* USER CODE BEGIN 1 */
 	ssd1306_display_bank = 0;
 	ssd1306_buffer[0]= 0x40; //control byte data
+
+	uint8_t currentchar = 'A';
+
+	uint8_t currentcharptr = currentchar - microsoftSansSerif_12ptFontInfo.FirstChar;
+
+	uint16_t startchar;
+	startchar = microsoftSansSerif_12ptFontInfo.FontTable[currentcharptr].width;
+	uint8_t arrayptr = microsoftSansSerif_12ptDescriptors[currentcharptr].start;
+
+	uint8_t test = microsoftSansSerif_12ptBitmaps[arrayptr];
+
+
+
 
   /* USER CODE END 1 */
 
