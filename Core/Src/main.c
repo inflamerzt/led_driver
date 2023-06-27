@@ -85,6 +85,8 @@ int main(void)
 	ssd1306_display_bank = 0;
 	ssd1306_buffer[0]= 0x40; //control byte data
 
+	__asm("nop");
+
 
 /*
 	for (uint8_t i = 0; i < charwidth; i++){
